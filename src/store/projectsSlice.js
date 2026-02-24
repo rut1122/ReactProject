@@ -9,6 +9,7 @@ const projectsSlice = createSlice({
   reducers: {
     //פונקצייה להוספת פרוייקט
     addProject: (state, action) => {
+      
       const newProject = {
         id: Date.now().toString(),
         tasks: [],
