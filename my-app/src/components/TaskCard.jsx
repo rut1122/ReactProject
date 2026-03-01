@@ -1,7 +1,9 @@
 
 import React from 'react';
-
-const TaskCard = ({ task }) => {
+import{deleteTask,updateTaskStatus}from "../store/projectsSlice";
+import {useDispatch} from "react-redux";
+import { use } from 'react';
+const TaskCard = ({ task,projectId }) => {
   // פונקציה לקבלת צבע לפי רמת העדיפות
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -11,7 +13,7 @@ const TaskCard = ({ task }) => {
       default: return '#ccc';
     }
   };
-
+const dispatch=useDispatch();
   return (
     <div style={{
       backgroundColor: "white",
@@ -52,6 +54,18 @@ const TaskCard = ({ task }) => {
         <span style={{ color: "#999" }}>
            📅 {task.date}
         </span>
+        <select
+
+        value={task.status}
+        onChange={(e)=> }>
+          const newStatus=e.target.value
+          dispatch(updateTaskStatus())
+        
+
+
+        </select>
+        <button onClick={()=>dispatch(deleteTask({ projectId: projectId, taskId: task.id }))}>🗑️</button>
+        <button onClick={()=>dispatch(updateTaskStatus({projectId:projectId,taskId:task.id,newStatus:newStatus}))}>⬆️</button>
       </div>
     </div>
   );
