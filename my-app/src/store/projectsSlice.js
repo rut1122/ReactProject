@@ -44,6 +44,18 @@ const projectsSlice = createSlice({
         });
       }
     },
+    //פונקתיה למחיקת משימה
+    deleteTask:(state,action)=>{
+      //מחלצים את הנתונים מהאקשין
+      const{projectId,taskId}=action.payload
+      //מציאת הפרויקט הספציפי אליו משייכת המשימה
+      const project=state.list.find(p=>String(p.id)===String(ProjectId));
+      
+      //אם מצאנו יוצרים רשימה חדשה ללא המשימה שרצינו למחוק
+      if(project)
+project.tasks=project.tasks.filter(task=>task.id!==taskId)
+      
+    }
   },
   
 });
