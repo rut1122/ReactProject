@@ -1,51 +1,47 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* העטיפה של כל דף ששומרת שהכל יהיה באמצע */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+  background-color: #f0f2f5; /* רקע אפרפר נעים */
+  direction: rtl;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* העיצוב של הכרטיס עצמו */
+.card-style {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  padding: 20px;
+  width: 280px; 
+  transition: all 0.3s ease; /* האנימציה שתהפוך את התנועה לחלקה */
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* כאן את מוסיפה את הקוד ששאלת עליו! */
+.card-style:hover {
+  transform: translateY(-5px); /* מזיז 5 פיקסלים למעלה */
+  box-shadow: 0 12px 20px rgba(0,0,0,0.1); /* צל חזק יותר */
+  border-color: #007bff; /* אופציונלי: צבע המסגרת ישתנה לכחול בhover */
 }
 
-.card {
-  padding: 2em;
+/* עיצוב כפתורים כללי שיהיה יפה */
+button {
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  padding: 8px 15px;
+  transition: opacity 0.2s;
 }
 
-.read-the-docs {
-  color: #888;
-}
-*{
-  /* text-align: center;
-  flex-wrap: wrap; */
-  display: flex;          /* מפעיל את מודל הפלקס */
-  justify-content: center; /* ממרכז אופקית (ימין-שמאל) */
-  align-items: center;     /* ממרכז אנכית (למעלה-למטה) */
-  min-height: 100vh;      /* חשוב: נותן לקונטיינר גובה של כל המסך */
-
+button:hover {
+  opacity: 0.8;
 }

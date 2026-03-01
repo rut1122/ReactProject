@@ -1,57 +1,3 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// //שמירת המידע בסלייס
-// const projectsSlice = createSlice({
-//   name: "projects",
-//   initialState: {
-//     list: [],
-//   },
-//   //פונקציות
-//   reducers: {
-//     //פונקצייה להוספת פרוייקט
-//     addProject: (state, action) => {
-//       const newProject = {
-//         id: Date.now().toString(),
-//         tasks: [],
-//         ...action.payload,
-//       };
-//       state.list.push(newProject);
-//     },
-//     //פןנקציה לעריכת פרויקט
-//     editProject:(state,action)=>{
-      
-//       //מחלצת את הפרויקט לעריכה
-//       const projectToEdit = state.list.find(
-//         (project)=>project.id===action.payload.id);
-//         if(projectToEdit)
-//           projectToEdit.name=action.payload.newName;
-              
-//     },
-//     //פונקציה למחיקת פרויקט
-//     deleteProject: (state, action) => {
-//       //יוצר רשימה חדשה ללא הפרויקט שרוצים למחוק
-//       state.list = state.list.filter(
-//         (Project) => Project.id !== action.payload,
-//       );
-//     },
-//     //הוספת משימה לפרויקט
-//     addTaskToProject: (state, action) => {
-//       const { ProjectId, task } = action.payload;
-//       const project = state.list.find((p) => p.id === ProjectId);
-//       if (project) {
-//         project.tasks.push({
-//           id: Date.now().toString(),
-//           ...task,
-//         });
-//       }
-//     },
-//   },
-  
-// });
-// export const { addProject,editProject, deleteProject, addTaskToProject } =
-//   projectsSlice.actions;
-
-// export default projectsSlice.reducer;
-
 
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -70,7 +16,7 @@ const projectsSlice = createSlice({
       };
       state.list.push(newProject);
     },
-    
+
     // עריכת פרויקט
     editProject: (state, action) => {
       const projectToEdit = state.list.find(
@@ -80,7 +26,25 @@ const projectsSlice = createSlice({
         projectToEdit.name = action.payload.newName;
       }
     },
+    editTask: (state, action) => {
+      const { ProjectId, taskId, updatedFields } = action.payload;
 
+      // 1. מציאת הפרויקט
+      const project = state.list.find((p) => String(p.id) === String(ProjectId));
+
+      if (project) {
+        // 2. מציאת המשימה בתוך הפרויקט
+        const task = project.tasks.find((t) => String(t.id) === String(taskId));
+
+        if (task) {
+          // 3. עדכון השדות (שם, תיאור, תאריך, עדיפות)
+          task.title = updatedFields.title;
+          task.description = updatedFields.description;
+          task.date = updatedFields.date;
+          task.priority = updatedFields.priority;
+        }
+      }
+    },
     // מחיקת פרויקט
     deleteProject: (state, action) => {
       state.list = state.list.filter(
@@ -88,14 +52,14 @@ const projectsSlice = createSlice({
       );
     },
 
-    // *** כאן התיקון הקריטי להוספת משימה ***
+
     addTaskToProject: (state, action) => {
       // חילוץ הנתונים שנשלחו מהקומפוננטה
       const { ProjectId, task } = action.payload;
-      
+
       // מציאת הפרויקט המתאים ברשימה לפי ה-ID
       const project = state.list.find((p) => String(p.id) === String(ProjectId));
-      
+
       if (project) {
         // הוספת המשימה למערך המשימות של הפרויקט שמצאנו
         project.tasks.push({
@@ -103,9 +67,39 @@ const projectsSlice = createSlice({
           ...task,
         });
       }
+
     },
+//שנוי סטטוס המשימה
+    updateTaskStatus: (state, action) => {
+      const { ProjectId, taskId, newStatus } = action.payload;
+
+      // מציאת הפרויקט
+      const project = state.list.find((p) => String(p.id) === String(ProjectId));
+
+      if (project) {
+        // מציאת המשימה בתוך הפרויקט
+        const task = project.tasks.find((t) => String(t.id) === String(taskId));
+
+        if (task) {
+          // עדכון הסטטוס בלבד
+          task.status = newStatus;
+        }
+      }
+    },
+    //פונקתיה למחיקת משימה
+    deleteTask: (state, action) => {
+      //מחלצים את הנתונים מהאקשין
+      const { projectId, taskId } = action.payload
+      //מציאת הפרויקט הספציפי אליו משייכת המשימה
+      const project = state.list.find(p => String(p.id) === String(ProjectId));
+
+      //אם מצאנו יוצרים רשימה חדשה ללא המשימה שרצינו למחוק
+      if (project)
+        project.tasks = project.tasks.filter(task => task.id !== taskId)
+
+    }
   },
 });
 
-export const { addProject, editProject, deleteProject, addTaskToProject } = projectsSlice.actions;
+export const { addProject, editProject, deleteProject, addTaskToProject, editTask,updateTaskStatus } = projectsSlice.actions;
 export default projectsSlice.reducer;
