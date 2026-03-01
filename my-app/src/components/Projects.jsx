@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   deleteProject,
   editProject,
@@ -51,7 +52,7 @@ const Projects = () => {
               </>
             ) : (
               <>
-                <h3>{p.name}</h3>
+                <Link to={`/Projects/${p.id}/TasksList`}>{p.name}</Link>{" "}
                 <p>{p.description}</p>
                 <button
                   onClick={() => {
@@ -68,7 +69,7 @@ const Projects = () => {
               onClick={() => dispatch(deleteProject(p.id))}
               style={{ backgroundColor: "red", color: "white" }}
             >
-              מחק אותי כדי לבדוק את ה-Redux
+              מחק פרויקט
             </button>
           </div>
         ))}
