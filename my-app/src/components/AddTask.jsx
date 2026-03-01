@@ -12,7 +12,7 @@ const AddTask = () => {
   // •	עדיפות (Low / Medium / High)
   // •	תאריך יעד
  const dispatch = useDispatch();
-const { projectId } = useParams();
+const { ProjectId } = useParams();
 const location = useLocation();
 const projectFromState = location.state?.project;
 
@@ -24,7 +24,7 @@ const projectFromState = location.state?.project;
   //אובייקט משימה חדשה
   const handleSubmitTask = () => {
     const newTaskToProject = {
-      projectId,
+      ProjectId,
       title: taskTitle,
       description: taskDescription,
       status: taskStatus,

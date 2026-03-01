@@ -3,6 +3,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom"; // 1. ייבוא
 import AddProject from "./AddProject";
+import React,{useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../store/userSlice";
 
 const schema = yup.object({
   userName: yup.string().required("שם משתמש הוא שדה חובה"),
@@ -11,7 +14,8 @@ const schema = yup.object({
 
 const Login = () => {
   const navigate = useNavigate(); // 2. הגדרה
-  
+  const dispatch=useDispatch();
+  const isLoggedIn=useSelector((state)=>state.user.isLoggedIn)
   const {
     register,
     handleSubmit,
@@ -21,10 +25,15 @@ const Login = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("התחברת בהצלחה!", data);
-    // 3. כאן קורה הקסם - מעבר לדף הפרויקטים
-    navigate("/projects"); 
-  };
+dispatch(login({name:data.userName,password:data.password}))
+
+};
+//האזנה לשינוי שמנשתנה סטטוס ההתחברות
+useEffect(()=>{
+  if(isLoggedIn){
+    navigate("/Projects");
+  }
+},[isLoggedIn, navigate])
 
   return (
     <div style={{ padding: "20px", direction: "rtl" }}>
