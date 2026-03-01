@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+*{
+  /* text-align: center;
+  flex-wrap: wrap; */
+  display: flex;          /* מפעיל את מודל הפלקס */
+  justify-content: center; /* ממרכז אופקית (ימין-שמאל) */
+  align-items: center;     /* ממרכז אנכית (למעלה-למטה) */
+  min-height: 100vh;      /* חשוב: נותן לקונטיינר גובה של כל המסך */
+
+}
