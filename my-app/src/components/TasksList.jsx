@@ -92,7 +92,7 @@ const TasksList = () => {
     { id: "To Do", title: "משימות לביצוע" },
     { id: "In Progress", title: "בביצוע מפתח" },
     { id: "Testing", title: "מוכן לבדיקות" },
-    { id: "Done", title: "נבדקו" }
+    { id: "Done", title: "נבדקו" },
   ];
 
   if (!project) return <p dir="rtl">טוען פרויקט או שהפרויקט לא נמצא...</p>;
