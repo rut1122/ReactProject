@@ -22,6 +22,8 @@ const userSlice = createSlice({
         state.isLoggedIn = true;
       } else {
         state.isLoggedIn = false;
+       state.setLoginerror=true;
+
       }
     },
     //התנתקות

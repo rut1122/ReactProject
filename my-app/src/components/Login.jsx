@@ -1,11 +1,18 @@
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom"; // 1. ייבוא
-import AddProject from "./AddProject";
-import React,{useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/userSlice";
+import TextField from "@mui/material/TextField";
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 const schema = yup.object({
   userName: yup.string().required("שם משתמש הוא שדה חובה"),
@@ -13,48 +20,87 @@ const schema = yup.object({
 }).required();
 
 const Login = () => {
-  const navigate = useNavigate(); // 2. הגדרה
-  const dispatch=useDispatch();
-  const isLoggedIn=useSelector((state)=>state.user.isLoggedIn)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loginError = useSelector((state) => state.user.setLoginerror);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+  const { control, register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
-dispatch(login({name:data.userName,password:data.password}))
+    dispatch(login({ name: data.userName, password: data.password }));
+  };
 
-};
-//האזנה לשינוי שמנשתנה סטטוס ההתחברות
-useEffect(()=>{
-  if(isLoggedIn){
-    navigate("/Projects");
-  }
-},[isLoggedIn, navigate])
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/Projects");
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
-    <div style={{ padding: "20px", direction: "rtl" }}>
-      <h2>התחברות למערכת</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>שם משתמש:</label><br />
-          <input {...register("userName")} />
-          <p style={{ color: "red" }}>{errors.userName?.message}</p>
-        </div>
+    /* הקופסה החיצונית שממרכזת את הכל באמצעות Flexbox */
+    <Box sx={{
+      width: '100vw',          // תופס את כל רוחב המסך
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      bgcolor: '#f0f2f5'
+    }}>
+      {/* הכרטיס המרכזי */}
+      <Paper elevation={3} sx={{
+        p: 4,
+        width: '100%',
+        maxWidth: 400,
+        borderRadius: 2,
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        <Typography variant="h5" sx={{ textAlign: 'center', mb: 3, fontWeight: 'bold' }}>
+          התחברות למערכת
+        </Typography>
 
-        <div>
-          <label>סיסמה:</label><br />
-          <input type="password" {...register("password")} />
-          <p style={{ color: "red" }}>{errors.password?.message}</p>
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            fullWidth
+            {...register("userName")}
+            label="שם משתמש"
+            variant="outlined"
+            sx={{ mb: 2 }}
+            error={!!errors.userName}
+            helperText={errors.userName?.message}
+          />
+          <Controller
+            name="password"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <FormControl fullWidth variant="outlined" error={!!error} sx={{ mb: 2 }}>
+                <InputLabel>סיסמה</InputLabel>
+                <OutlinedInput {...field} type="password" label="סיסמה" />
 
-        {/* ב-Submit לא שמים onClick, ה-handleSubmit מטפל בזה */}
-        <button type="submit">התחבר</button>
-      </form>
-    </div>
+                {/* כאן הוספתי את הצגת השגיאה של הסיסמה */}
+                {error && (
+                  <Typography color="error" sx={{ fontSize: '0.75rem', mt: 1, ml: 1 }}>
+                    {error.message}
+                  </Typography>
+                )}
+              </FormControl>
+            )}
+          />
+          <Button type="submit" variant="contained" fullWidth size="large">
+            התחבר
+          </Button>
+
+          {loginError && (
+            <Typography color="error" sx={{ mt: 2, textAlign: 'center', fontWeight: 'bold' }}>
+              שם משתמש או סיסמה שגויים
+            </Typography>
+          )}
+        </form>
+      </Paper>
+    </Box>
   );
 };
 

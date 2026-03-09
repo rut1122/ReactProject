@@ -1,12 +1,13 @@
-
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import{deleteTask,updateTaskStatus,editTask}from "../store/projectsSlice";
+import {useDispatch} from "react-redux";
 import { useParams } from 'react-router-dom';
-import { updateTaskStatus, editTask } from '../store/projectsSlice';
+import { useState } from 'react';
+
 
 const TaskCard = ({ task }) => {
   const dispatch = useDispatch();
-  const { ProjectId } = useParams();
+  const { projectId } = useParams();
 
   // סטייט למצב עריכה כללית (שם, תיאור וכו')
   const [isEditing, setIsEditing] = useState(false);
@@ -16,7 +17,7 @@ const TaskCard = ({ task }) => {
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
     dispatch(updateTaskStatus({
-      ProjectId,
+      projectId,
       taskId: task.id,
       newStatus: newStatus
     }));
@@ -25,7 +26,7 @@ const TaskCard = ({ task }) => {
   // פונקציה לשמירת עריכת שאר השדות
   const handleSaveEdit = () => {
     dispatch(editTask({
-      ProjectId,
+      projectId,
       taskId: task.id,
       updatedFields: {
         title: tempTask.title,
@@ -77,9 +78,14 @@ const TaskCard = ({ task }) => {
         <button onClick={() => setIsEditing(true)} style={btnEdit}>✎ ערוך</button>
         <small>{task.priority} | {task.date}</small>
       </div>
+<button onClick={()=>dispatch(deleteTask({ projectId: projectId, taskId: task.id }))}>🗑️</button>
+{/* <button onClick={()=>dispatch(updateTaskStatus({projectId:projectId,taskId:task.id,newStatus:newStatus}))}>⬆️</button> */}
+
     </div>
   );
 };
+       
+
 
 // עיצובים
 const cardStyle = { backgroundColor: "white", padding: "15px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", marginBottom: "10px" };
