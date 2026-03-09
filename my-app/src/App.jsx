@@ -1,11 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
+import { createTheme, ThemeProvider } from '@mui/material/styles'; 
 import Projects from "./components/Projects";
 import TasksList from "./components/TasksList";
 import AddTask from "./components/AddTask";
-
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#b85e5e', // כאן את שמה את הצבע הורוד שלך
+    },
+  },
+});
 function App() {
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <Routes>
         {/* דף כניסה */}
@@ -21,6 +29,7 @@ function App() {
         <Route path="/Projects/:projectId/AddTask" element={<AddTask />} />
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 }
 
