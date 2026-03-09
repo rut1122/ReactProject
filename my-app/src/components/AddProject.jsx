@@ -19,30 +19,37 @@ const AddProject = () => {
     const navigate = useNavigate();
     const projects = useSelector((state) => state.projects.list || []);
     
+    // מצב לעריכה
     const [editingId, setEditingId] = useState(null);
+    
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
         if (editingId) {
-            // עדכון השם בלבד (לפי מה שביקשת)
+            // עדכון: אנחנו שולחים את ה-ID ואת השדות המעודכנים בלבד
+            // ה-Reducer ידאג למזג אותם עם הנתונים הישנים
             dispatch(editProject({ 
                 id: editingId, 
-                newName: data.name 
+                name: data.name, 
+                description: data.description, 
+                date: data.date 
             }));
             setEditingId(null);
         } else {
-            // הוספת פרויקט חדש
+            // הוספה חדשה
             dispatch(addProject({ 
                 ...data, 
                 id: Date.now().toString(), 
                 createdAt: new Date().toLocaleDateString() 
             }));
         }
+        // איפוס הטופס אחרי השליחה
         reset({ name: '', description: '', date: '' });
     };
 
     const handleEdit = (project) => {
         setEditingId(project.id);
+        // מילוי הטופס בלי לאפס את כל הדף
         setValue("name", project.name);
         setValue("description", project.description);
         setValue("date", project.date);
@@ -54,7 +61,6 @@ const AddProject = () => {
                 הפרויקטים שלי
             </Typography>
 
-            {/* רשימת הפרויקטים */}
             <Grid container spacing={3} sx={{ mb: 6 }}>
                 {projects.map((project) => (
                     <Grid item xs={12} sm={6} md={4} key={project.id}>
@@ -67,7 +73,12 @@ const AddProject = () => {
                             <CardActions>
                                 <IconButton onClick={() => handleEdit(project)} color="primary"><EditIcon /></IconButton>
                                 <IconButton onClick={() => dispatch(deleteProject(project.id))} color="error"><DeleteIcon /></IconButton>
-                                <Button size="small" startIcon={<VisibilityIcon />} onClick={() => navigate(`/Projects/${project.id}/TasksList`)} sx={{ color: '#b85e5e' }}>
+                                <Button 
+                                    size="small" 
+                                    startIcon={<VisibilityIcon />} 
+                                    onClick={() => navigate(`/Projects/${project.id}/TasksList`)}
+                                    sx={{ color: '#b85e5e' }}
+                                >
                                     צפה במשימות
                                 </Button>
                             </CardActions>
@@ -78,23 +89,20 @@ const AddProject = () => {
 
             <Divider sx={{ mb: 4 }} />
 
-            {/* טופס הוספה/עריכת שם בלבד */}
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Paper elevation={4} sx={{ p: 4, width: '100%', maxWidth: '500px', borderRadius: '20px' }}>
                     <Typography variant="h6" align="center" sx={{ mb: 2, color: '#b85e5e' }}>
-                        {editingId ? "עריכת שם הפרויקט" : "פרויקט חדש"}
+                        {editingId ? "עריכת פרויקט" : "פרויקט חדש"}
                     </Typography>
                     
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Stack spacing={2}>
-                            <TextField {...register("name", { required: "שדה חובה" })} label="שם הפרויקט" fullWidth error={!!errors.name} />
-                            
-                            <TextField {...register("description")} label="תיאור" fullWidth multiline rows={2} disabled={!!editingId} />
-                            
-                            <TextField {...register("date")} label="תאריך יעד" type="date" fullWidth InputLabelProps={{ shrink: true }} disabled={!!editingId} />
+                            <TextField {...register("name", { required: "שדה חובה" })} label="שם הפרויקט" fullWidth error={!!errors.name} helperText={errors.name?.message} />
+                            <TextField {...register("description", { required: "שדה חובה" })} label="תיאור" fullWidth multiline rows={2} error={!!errors.description} helperText={errors.description?.message} />
+                            <TextField {...register("date", { required: "שדה חובה" })} label="תאריך יעד" type="date" fullWidth InputLabelProps={{ shrink: true }} error={!!errors.date} helperText={errors.date?.message} />
                             
                             <Button variant="contained" type="submit" sx={{ bgcolor: '#b85e5e', '&:hover': { bgcolor: '#a34f4f' } }}>
-                                {editingId ? "עדכן שם" : "הוסף פרויקט"}
+                                {editingId ? "עדכן פרויקט" : "הוסף פרויקט"}
                             </Button>
                             
                             {editingId && (
