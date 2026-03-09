@@ -5,15 +5,24 @@ import { useForm, Controller } from "react-hook-form"; // ייבוא ה-Hooks
 import { addTaskToProject } from "../store/projectsSlice";
 
 // MUI Core
-import { 
-  Box, InputLabel, MenuItem, FormControl, Select, 
-  Button, TextField, Snackbar, Paper, Stack, FormHelperText 
-} from '@mui/material';
+import {
+  Box,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Button,
+  TextField,
+  Snackbar,
+  Paper,
+  Stack,
+  FormHelperText,
+} from "@mui/material";
 
 // MUI Date Pickers
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const AddTask = () => {
   const dispatch = useDispatch();
@@ -21,25 +30,52 @@ const AddTask = () => {
   const { projectId } = useParams();
 
   // הגדרת ה-Form
-  const { register, handleSubmit, control, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     // השליחה ל-Redux
-    dispatch(addTaskToProject({
-      projectId: projectId,
-      task: {
-        ...data,
-        id: Date.now().toString(),
-        date: data.date ? data.date.format('YYYY-MM-DD') : ""
-      }
-    }));
+    dispatch(
+      addTaskToProject({
+        projectId: projectId,
+        task: {
+          ...data,
+          id: Date.now().toString(),
+          date: data.date ? data.date.format("YYYY-MM-DD") : "",
+        },
+      }),
+    );
     navigate(`/Projects/${projectId}/TasksList`);
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', bgcolor: '#f9f9f9', p: 2, direction: 'rtl' }}>
-      <Paper elevation={3} sx={{ p: 4, width: '100%', maxWidth: '450px', borderRadius: '16px' }}>
-        <h2 style={{ textAlign: "center", color: "#b85e5e", marginBottom: "25px" }}>הוספת משימה חדשה</h2>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        minHeight: "100vh",
+        bgcolor: "#f9f9f9",
+        p: 2,
+        direction: "rtl",
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{ p: 4, width: "100%", maxWidth: "450px", borderRadius: "16px" }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            color: "#b85e5e",
+            marginBottom: "25px",
+          }}
+        >
+          הוספת משימה חדשה
+        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3}>
@@ -72,7 +108,9 @@ const AddTask = () => {
                 <MenuItem value="Testing">Testing</MenuItem>
                 <MenuItem value="Done">Done</MenuItem>
               </Select>
-              {errors.status && <FormHelperText>{errors.status.message}</FormHelperText>}
+              {errors.status && (
+                <FormHelperText>{errors.status.message}</FormHelperText>
+              )}
             </FormControl>
 
             <FormControl fullWidth>
@@ -87,20 +125,48 @@ const AddTask = () => {
             <Controller
               name="date"
               control={control}
-              render={({ field }) => (
+              render={({ field: { onChange, value, ...field } }) => (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker 
-                    label="תאריך יעד" 
+                  <DatePicker
+                    label="תאריך יעד"
                     {...field}
-                    slotProps={{ textField: { fullWidth: true } }}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        // זה הקסם: אומר ל-MUI להזיז את האייקון ימינה
+                        InputProps: {
+                          sx: {
+                            "& .MuiInputAdornment-root": {
+                              order: -1, // מעביר את האייקון להתחלה (ימין)
+                              marginRight: 0,
+                              marginLeft: 1.5,
+                            },
+                          },
+                        },
+                      },
+                    }}
                   />
                 </LocalizationProvider>
               )}
             />
 
             <Stack direction="row" spacing={2}>
-              <Button type="submit" variant="contained" fullWidth sx={{ py: 1.5, bgcolor: "#b85e5e" }}>שמור</Button>
-              <Button variant="outlined" fullWidth onClick={() => navigate(-1)} sx={{ color: "#b85e5e", borderColor: "#b85e5e" }}>ביטול</Button>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{ py: 1.5, bgcolor: "#b85e5e" }}
+              >
+                שמור
+              </Button>
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => navigate(-1)}
+                sx={{ color: "#b85e5e", borderColor: "#b85e5e" }}
+              >
+                ביטול
+              </Button>
             </Stack>
           </Stack>
         </form>

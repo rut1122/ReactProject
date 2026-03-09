@@ -63,14 +63,14 @@ const AddProject = () => {
                 ))}
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box  sx={{ display: 'flex', justifyContent: 'center' ,direction:'rtl'}}>
                 <Paper elevation={4} sx={{ p: 4, width: '100%', maxWidth: '500px', borderRadius: '20px' }}>
                     <Typography variant="h6" align="center" sx={{ mb: 2, color: '#b85e5e' }}>{editingId ? "עריכת פרויקט" : "פרויקט חדש"}</Typography>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Stack spacing={2}>
-                            <TextField {...register("name", { required: "שדה חובה" })} label="שם הפרויקט" fullWidth error={!!errors.name} />
-                            <TextField {...register("description", { required: "שדה חובה" })} label="תיאור" fullWidth multiline rows={2} error={!!errors.description} />
-                            <TextField {...register("date", { required: "שדה חובה" })} label="תאריך יעד" type="date" fullWidth InputLabelProps={{ shrink: true }} error={!!errors.date} />
+                            <TextField {...register("name", { required: "נא למלא שם פרויקט" })} label="שם הפרויקט" fullWidth error={!!errors.name} helperText={errors.name?.message}/>
+                            <TextField {...register("description")} label="תיאור" fullWidth error={!!errors.description} />
+                            <TextField {...register("date", { required: "נא למלא תאריך יעד" })} label="תאריך יעד" type="date" fullWidth InputLabelProps={{ shrink: true }} error={!!errors.date}helperText={errors.date?.message} />
                             <Button variant="contained" type="submit" sx={{ bgcolor: '#b85e5e', '&:hover': { bgcolor: '#a34f4f' } }}>{editingId ? "עדכן פרויקט" : "הוסף פרויקט"}</Button>
                             {editingId && <Button onClick={() => { setEditingId(null); reset(); }}>ביטול</Button>}
                         </Stack>

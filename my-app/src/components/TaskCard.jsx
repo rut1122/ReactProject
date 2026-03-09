@@ -25,8 +25,8 @@ const TaskCard = ({ task }) => {
       <CardContent sx={{ p: 1.5, "&:last-child": { pb: 1.5 } }}>
         {isEditing ? (
           <Stack spacing={1}>
-            <TextField size="small" fullWidth value={tempTask.title} onChange={(e) => setTempTask({...tempTask, title: e.target.value})} />
-            <TextField size="small" fullWidth multiline rows={2} value={tempTask.description} onChange={(e) => setTempTask({...tempTask, description: e.target.value})} />
+            <TextField size="small" fullWidth value={tempTask.title} label='כותרת' onChange={(e) => setTempTask({...tempTask, title: e.target.value})} />
+            <TextField size="small" fullWidth multiline rows={2} value={tempTask.description} label='תאור' onChange={(e) => setTempTask({...tempTask, description: e.target.value})} />
             <Button size="small" variant="contained" onClick={handleSave} startIcon={<SaveIcon />} sx={{ bgcolor: '#b85e5e' }}>שמור</Button>
           </Stack>
         ) : (
