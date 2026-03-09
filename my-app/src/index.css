@@ -27,8 +27,8 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  display: block; /* שיניתי מ-flex ל-block כדי שלא ימרכז הכל בכוח */
-  background-color: #f0f2f5; /* צבע רקע בהיר ונעים */
+  display: block; 
+  background-color: #f0f2f5; 
 }
 
 #root {
