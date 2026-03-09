@@ -46,8 +46,8 @@ const Login = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: '100vh',
-      bgcolor: '#f0f2f5'
+      minHeight: '#dc3545',
+      bgcolor: '##dc3545'
     }}>
       {/* הכרטיס המרכזי */}
       <Paper elevation={3} sx={{
@@ -82,7 +82,7 @@ const Login = () => {
 
                 {/* כאן הוספתי את הצגת השגיאה של הסיסמה */}
                 {error && (
-                  <Typography color="error" sx={{ fontSize: '0.75rem', mt: 1, ml: 1 }}>
+                  <Typography color="error" sx={{ fontSize: '0.#dc3545', mt: 1, ml: 1 }}>
                     {error.message}
                   </Typography>
                 )}
