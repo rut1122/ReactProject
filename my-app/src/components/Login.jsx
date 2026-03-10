@@ -13,7 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-
+//פונקציה להכנסת השם משתמש 
 const schema = yup.object({
   userName: yup.string().required("שם משתמש הוא שדה חובה"),
   password: yup.string().min(5, "סיסמה חייבת להיות לפחות 5 תווים").required("חובה להזין סיסמה"),
@@ -28,7 +28,7 @@ const Login = () => {
   const { control, register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
-
+//בדיקת המשתמש
   const onSubmit = (data) => {
     dispatch(login({ name: data.userName, password: data.password }));
   };

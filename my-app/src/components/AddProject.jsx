@@ -9,7 +9,7 @@ import { Box, Button, TextField, Paper, Stack, Container, Grid, Card, CardConten
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
-
+//פונקציה להוספת הפרויקטים
 const AddProject = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const AddProject = () => {
         }
         reset({ name: '', description: '', date: '' });
     };
-
+//עריכת פרויקט
     const handleEdit = (project) => {
         setEditingId(project.id);
         setValue("name", project.name);

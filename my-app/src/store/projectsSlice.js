@@ -1,7 +1,5 @@
-
-
 import { createSlice } from "@reduxjs/toolkit";
-
+//הנתונים של הפרויקטים
 const projectsSlice = createSlice({
   name: "projects",
   initialState: {
@@ -17,7 +15,7 @@ const projectsSlice = createSlice({
       };
       state.list.push(newProject);
     },
-
+//עדכון
     editProject: (state, action) => {
       const { id, name, description, date } = action.payload;
       const projectToEdit = state.list.find((p) => String(p.id) === String(id));
@@ -27,11 +25,11 @@ const projectsSlice = createSlice({
         projectToEdit.date = date; // עדכון תאריך היעד
       }
     },
-
+//מחיקה
     deleteProject: (state, action) => {
       state.list = state.list.filter((p) => p.id !== action.payload);
     },
-
+//הוספת המשימה לפרויקט
     addTaskToProject: (state, action) => {
       const { projectId, task } = action.payload;
       const project = state.list.find((p) => String(p.id) === String(projectId));
@@ -43,7 +41,7 @@ const projectsSlice = createSlice({
         });
       }
     },
-
+//פונקצית לעדכון המשימה
     editTask: (state, action) => {
       const { projectId, taskId, updatedFields } = action.payload;
       const project = state.list.find((p) => String(p.id) === String(projectId));
@@ -54,7 +52,7 @@ const projectsSlice = createSlice({
         }
       }
     },
-
+// סטטוס פונקצית עדכון
     updateTaskStatus: (state, action) => {
       const { projectId, taskId, newStatus } = action.payload;
       const project = state.list.find((p) => String(p.id) === String(projectId));
@@ -63,7 +61,7 @@ const projectsSlice = createSlice({
         if (task) task.status = newStatus;
       }
     },
-
+//פונקצית מחיקה
     deleteTask: (state, action) => {
       const { projectId, taskId } = action.payload;
       const project = state.list.find((p) => String(p.id) === String(projectId));

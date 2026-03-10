@@ -4,26 +4,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form"; // ייבוא ה-Hooks
 import { addTaskToProject } from "../store/projectsSlice";
 
-// MUI Core
 import {
-  Box,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
-  Button,
-  TextField,
-  Snackbar,
-  Paper,
-  Stack,
-  FormHelperText,
+  Box, InputLabel, MenuItem, FormControl,Select,Button,TextField, Snackbar,  Paper,  Stack,  FormHelperText
 } from "@mui/material";
 
-// MUI Date Pickers
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
+//פונקציה להוספת משימה לפרויקט
 const AddTask = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

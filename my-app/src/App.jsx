@@ -7,7 +7,7 @@ import AddTask from "./components/AddTask";
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#b85e5e', // כאן את שמה את הצבע הורוד שלך
+      main: '#b85e5e', 
     },
   },
 });

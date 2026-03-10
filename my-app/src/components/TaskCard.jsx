@@ -6,7 +6,7 @@ import { Card, CardContent, Typography, IconButton, Stack, TextField, Button, Me
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-
+//הצגת השימות של כל פרויקט
 const TaskCard = ({ task }) => {
   const dispatch = useDispatch();
   const { projectId } = useParams();
